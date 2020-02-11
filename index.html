@@ -23,7 +23,13 @@
             <option value="11">11</option>
             <option value="12">12</option>
         </select>
-        <button type="button">Create Table</button>
+        <button id="button" type="button" onclick="value()">Create Table</button>
     </form>
+    <script>
+        function value(){
+            let chosenSerie = document.getElementByTagName("form").elements.length;
+            alert(chosenSerie);
+        }
+    </script>
 </body>
 </html>
