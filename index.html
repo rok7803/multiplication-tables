@@ -1,5 +1,5 @@
 <DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <title>Multiplication Table</title>
 </head>
@@ -27,8 +27,8 @@
     </form>
     <script>
         function value(){
-            let chosenSerie = document.getElementByTagName("form").elements.length;
-            alert(chosenSerie);
+            const form= document.getElementByTagName("form");
+            form.disable = true;
         }
     </script>
 </body>
