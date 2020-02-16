@@ -43,8 +43,10 @@
         function setTable(formValue){
             let nodeTR, howManyRows, howManyCols;
             if (checkView == false){
-                const tableTRs = document.getElementsByClassName("multiplication");
-                tableTRs.remove();
+                const multiplicationTable = document.getElementById("multiplication-table");
+                while(multiplicationTable.hasChildNodes()){
+                 multiplicationTable.removeChild(multiplicationTable.firstChild);
+                }
             }
             if(formValue>=2 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
@@ -53,7 +55,7 @@
             for(let i=0;i<howManyRows;i++){
                 console.log(i);
                 nodeTR = document.createElement("TR");
-                nodeTR.setAttribute("class", "multiplication");
+                //nodeTR.setAttribute("class", "multiplication");
                 for(let j=0;j<howManyCols;j++){
                     const nodeTD = document.createElement("TD");
                     const textnode = document.createTextNode((j+1)+" x "+formValue);
