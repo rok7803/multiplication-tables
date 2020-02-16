@@ -41,6 +41,7 @@
         }
         function setTable(formValue){
             let nodeTR, howManyRows, howManyCols;
+            let serieNumber = 1;
             const multiplicationTable = document.getElementById("multiplication-table");
             while(multiplicationTable.hasChildNodes()){
                 multiplicationTable.removeChild(multiplicationTable.firstChild);
@@ -53,9 +54,11 @@
                 console.log(i);
                 nodeTR = document.createElement("TR");
                 //nodeTR.setAttribute("class", "multiplication");
+                if(formValue == 13 || formValue == 14) serieNumber = i+1;
+                else serieNumber = formValue;
                 for(let j=0;j<howManyCols;j++){
                     const nodeTD = document.createElement("TD");
-                    const textnode = document.createTextNode((j+1)+" x "+formValue);
+                    const textnode = document.createTextNode((j+1)+" x "+serieNumber);
                     nodeTD.appendChild(textnode);
                     nodeTR.appendChild(nodeTD);
                 }
