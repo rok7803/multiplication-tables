@@ -34,7 +34,6 @@
     <p id="output"></p>
     <table id="multiplication-table"></table>
     <script>
-        let checkView = true;
         function getValue(){
             const formValue = document.getElementById("multiplication-form").elements[0].value;
             //document.getElementById("output").innerHTML = formValue;
@@ -42,11 +41,9 @@
         }
         function setTable(formValue){
             let nodeTR, howManyRows, howManyCols;
-            if (checkView == false){
-                const multiplicationTable = document.getElementById("multiplication-table");
-                while(multiplicationTable.hasChildNodes()){
-                 multiplicationTable.removeChild(multiplicationTable.firstChild);
-                }
+            const multiplicationTable = document.getElementById("multiplication-table");
+            while(multiplicationTable.hasChildNodes()){
+                multiplicationTable.removeChild(multiplicationTable.firstChild);
             }
             if(formValue>=2 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
@@ -64,7 +61,6 @@
                 }
                 document.getElementById("multiplication-table").appendChild(nodeTR);
             }
-            checkView = false;
         }
     </script>
 </body>
