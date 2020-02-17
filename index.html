@@ -12,9 +12,13 @@
 <body>
     <h1>Multiplication Table</h1>
     <form id="multiplication-form">
-        <label for="choose-serie">Choose Serie:</label>
-        <select name="serie" id="choose-serie" multiple title="For multiple selects press Ctrl (Windows) or Command (Mac)">
-            <option value="OK">--Please choose a serie--</option>
+        <label class="form-heading">Choose Serie:</label>
+        <br>
+        <label for="choose-serieAll">All</label>
+        <input id="choose-serieAll" type="checkbox" value="1">
+        <label for="choose-serie2">2</label>
+        <!--<select name="serie" id="choose-serie" multiple title="For multiple selects press Ctrl (Windows) or Command (Mac)">
+            <option value="1">All</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
@@ -28,7 +32,35 @@
             <option value="12">12</option>
             <option value="13">10x10</option>
             <option value="14">12x12</option>
-        </select>
+        </select>-->
+        <input id="choose-serie2" type="checkbox" value="2">
+        <label for="choose-serie3">3</label>
+        <input id="choose-serie3" type="checkbox" value="3">
+        <label for="choose-serie3">4</label>
+        <input id="choose-serie4" type="checkbox" value="4">
+        <label for="choose-serie4">5</label>
+        <input id="choose-serie5" type="checkbox" value="5">
+        <label for="choose-serie6">6</label>
+        <input id="choose-serie6" type="checkbox" value="6">
+        <label for="choose-serie7">7</label>
+        <input id="choose-serie7" type="checkbox" value="7">
+        <label for="choose-serie8">8</label>
+        <input id="choose-serie8" type="checkbox" value="8">
+        <label for="choose-serie9">9</label>
+        <input id="choose-serie9" type="checkbox" value="9">
+        <label for="choose-serie10">10</label>
+        <input id="choose-serie10" type="checkbox" value="10">
+        <label for="choose-serie11">11</label>
+        <input id="choose-serie11" type="checkbox" value="11">
+        <label for="choose-serie12">12</label>
+        <input id="choose-serie12" type="checkbox" value="12">
+        <br>
+        <label class="form-heading">Choose Number of Terms:</label>
+        <br>
+        <label for="choose-term10">10</label>
+        <input id="choose-term10" type="checkbox" value="3" checked>
+        <label for="choose-term12">12</label>
+        <input id="choose-term12" type="checkbox" value="3">
     </form>
     <button onclick="getValue()">Create Table</button>
     <p id="output"></p>
