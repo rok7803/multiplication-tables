@@ -17,34 +17,34 @@
         <label for="choose-serie1">All</label>
         <input id="choose-serie1" type="checkbox" value="1" onclick="checkAll()">
         <label for="choose-serie2">2</label>
-        <input id="choose-serie2" type="checkbox" value="2">
+        <input id="choose-serie2" type="checkbox" value="2" onclick="uncheckAll()">
         <label for="choose-serie3">3</label>
-        <input id="choose-serie3" type="checkbox" value="3">
+        <input id="choose-serie3" type="checkbox" value="3" onclick="uncheckAll()">
         <label for="choose-serie3">4</label>
-        <input id="choose-serie4" type="checkbox" value="4">
+        <input id="choose-serie4" type="checkbox" value="4" onclick="uncheckAll()">
         <label for="choose-serie4">5</label>
-        <input id="choose-serie5" type="checkbox" value="5">
+        <input id="choose-serie5" type="checkbox" value="5" onclick="uncheckAll()">
         <label for="choose-serie6">6</label>
-        <input id="choose-serie6" type="checkbox" value="6">
+        <input id="choose-serie6" type="checkbox" value="6" onclick="uncheckAll()">
         <label for="choose-serie7">7</label>
-        <input id="choose-serie7" type="checkbox" value="7">
+        <input id="choose-serie7" type="checkbox" value="7" onclick="uncheckAll()">
         <label for="choose-serie8">8</label>
-        <input id="choose-serie8" type="checkbox" value="8">
+        <input id="choose-serie8" type="checkbox" value="8" onclick="uncheckAll()">
         <label for="choose-serie9">9</label>
-        <input id="choose-serie9" type="checkbox" value="9">
+        <input id="choose-serie9" type="checkbox" value="9" onclick="uncheckAll()">
         <label for="choose-serie10">10</label>
-        <input id="choose-serie10" type="checkbox" value="10">
+        <input id="choose-serie10" type="checkbox" value="10" onclick="uncheckAll()">
         <label for="choose-serie11">11</label>
-        <input id="choose-serie11" type="checkbox" value="11">
+        <input id="choose-serie11" type="checkbox" value="11" onclick="uncheckAll()">
         <label for="choose-serie12">12</label>
-        <input id="choose-serie12" type="checkbox" value="12">
+        <input id="choose-serie12" type="checkbox" value="12" onclick="uncheckAll()">
         <br>
-        <label class="form-heading">Choose Number of Terms:</label>
+        <label class="form-heading">Terms per Serie:</label>
         <br>
         <label for="choose-term10">10</label>
-        <input id="choose-term10" type="checkbox" value="3" checked onclick="checkTerms(10)">
+        <input id="choose-term10" type="checkbox" value="13" checked onclick="checkTerms(10)">
         <label for="choose-term12">12</label>
-        <input id="choose-term12" type="checkbox" value="3" onclick="checkTerms(12)">
+        <input id="choose-term12" type="checkbox" value="14" onclick="checkTerms(12)">
     </form>
     <button onclick="getValue()">Create Table</button>
     <p id="output"></p>
@@ -55,8 +55,8 @@
         function checkAll(){
             console.log("OK");
             
-            serieNumber = multiplicationForm.elements[0].value;
-            allChecked = multiplicationForm.elements[0].checked;
+            const serieNumber = multiplicationForm.elements[0].value;
+            const allChecked = multiplicationForm.elements[0].checked;
             console.log(allChecked);
             
             for(let i=0;i<11;i++){
@@ -64,30 +64,34 @@
                 else if(serieNumber == 1 && !allChecked) multiplicationForm.elements[i+1].checked = false;
             }
         }
+        function uncheckAll(){
+            if(multiplicationForm.elements[0].checked) multiplicationForm.elements[0].checked = false;
+        }
         function checkTerms(numberOfTerms){
             let isChecked;
             for(let i=12;i<14;i++){
                 isChecked = multiplicationForm.elements[i].checked;
                 console.log(isChecked+" "+i);
                 if(i<13 && isChecked && numberOfTerms == 12) multiplicationForm.elements[i].checked = false;
-                    //multiplicationForm.elements[i+1].checked = true;
                 else if(i>12 && isChecked && numberOfTerms == 10) multiplicationForm.elements[i].checked = false;
             }
         }
         function getValue(){
-            let formValue;
-            //const  multiplicationForm = document.getElementById("multiplication-form");
+            let formValue, formTerms;
             for(let i=0;i<11;i++){
                 const isSerieChecked = multiplicationForm.elements[i+1].checked;
                 if(isSerieChecked){
                     formValue = multiplicationForm.elements[i+1].value;
-                    setTable(formValue);
+                        for(let j=12;j<14;j++){
+                            if(multiplicationForm.elements[j].checked) formTerms = multiplicationForm.elements[j].value;
+                        }
+                    setTable(formValue, formTerms);
                 }
                 console.log(isSerieChecked+" "+formValue);    
             }
             checkView = true;
         }
-        function setTable(formValue){
+        function setTable(formValue, formTerms){
             let nodeTR, howManyRows, howManyCols;
             let serieNumber = 1;
             if(checkView){
@@ -99,7 +103,7 @@
             }
             if(formValue>=2 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
-            if(formValue == 13) howManyCols = 10;
+            if(formTerms == 13) howManyCols = 10;
             else howManyCols = 12;
             for(let i=0;i<howManyRows;i++){
                 console.log(i);
