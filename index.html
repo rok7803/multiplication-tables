@@ -14,25 +14,9 @@
     <form id="multiplication-form">
         <label class="form-heading">Choose Serie:</label>
         <br>
-        <label for="choose-serieAll">All</label>
-        <input id="choose-serieAll" type="checkbox" value="1">
+        <label for="choose-serie1">All</label>
+        <input id="choose-serie1" type="checkbox" value="1" onclick="checkAll()">
         <label for="choose-serie2">2</label>
-        <!--<select name="serie" id="choose-serie" multiple title="For multiple selects press Ctrl (Windows) or Command (Mac)">
-            <option value="1">All</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">10x10</option>
-            <option value="14">12x12</option>
-        </select>-->
         <input id="choose-serie2" type="checkbox" value="2">
         <label for="choose-serie3">3</label>
         <input id="choose-serie3" type="checkbox" value="3">
@@ -66,17 +50,41 @@
     <p id="output"></p>
     <table id="multiplication-table"></table>
     <script>
+        let checkView = false;
+        function checkAll(){
+            console.log("OK");
+            const multiplicationForm = document.getElementById("multiplication-form");
+            serieNumber = multiplicationForm.elements[0].value;
+            allChecked = multiplicationForm.elements[0].checked;
+            console.log(allChecked);
+            
+            for(let i=0;i<11;i++){
+                if(serieNumber == 1 && allChecked) multiplicationForm.elements[i+1].checked = true;
+                else if(serieNumber == 1 && !allChecked) multiplicationForm.elements[i+1].checked = false;
+            }
+        }
         function getValue(){
-            const formValue = document.getElementById("multiplication-form").elements[0].value;
-            //document.getElementById("output").innerHTML = formValue;
-            setTable(formValue);
+            let formValue;
+            const  multiplicationForm = document.getElementById("multiplication-form");
+            for(let i=0;i<11;i++){
+                const isSerieChecked = multiplicationForm.elements[i+1].checked;
+                if(isSerieChecked){
+                    formValue = multiplicationForm.elements[i+1].value;
+                    setTable(formValue);
+                }
+                console.log(isSerieChecked+" "+formValue);    
+            }
+            checkView = true;
         }
         function setTable(formValue){
             let nodeTR, howManyRows, howManyCols;
             let serieNumber = 1;
-            const multiplicationTable = document.getElementById("multiplication-table");
-            while(multiplicationTable.hasChildNodes()){
-                multiplicationTable.removeChild(multiplicationTable.firstChild);
+            if(checkView){
+                const multiplicationTable = document.getElementById("multiplication-table");
+                while(multiplicationTable.hasChildNodes()){
+                    multiplicationTable.removeChild(multiplicationTable.firstChild);
+                }
+                checkView = false;
             }
             if(formValue>=2 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
