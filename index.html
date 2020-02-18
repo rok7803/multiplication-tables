@@ -42,18 +42,19 @@
         <label class="form-heading">Choose Number of Terms:</label>
         <br>
         <label for="choose-term10">10</label>
-        <input id="choose-term10" type="checkbox" value="3" checked>
+        <input id="choose-term10" type="checkbox" value="3" checked onclick="checkTerms(10)">
         <label for="choose-term12">12</label>
-        <input id="choose-term12" type="checkbox" value="3">
+        <input id="choose-term12" type="checkbox" value="3" onclick="checkTerms(12)">
     </form>
     <button onclick="getValue()">Create Table</button>
     <p id="output"></p>
     <table id="multiplication-table"></table>
     <script>
         let checkView = false;
+        const multiplicationForm = document.getElementById("multiplication-form");
         function checkAll(){
             console.log("OK");
-            const multiplicationForm = document.getElementById("multiplication-form");
+            
             serieNumber = multiplicationForm.elements[0].value;
             allChecked = multiplicationForm.elements[0].checked;
             console.log(allChecked);
@@ -63,9 +64,19 @@
                 else if(serieNumber == 1 && !allChecked) multiplicationForm.elements[i+1].checked = false;
             }
         }
+        function checkTerms(numberOfTerms){
+            let isChecked;
+            for(let i=12;i<14;i++){
+                isChecked = multiplicationForm.elements[i].checked;
+                console.log(isChecked+" "+i);
+                if(i<13 && isChecked && numberOfTerms == 12) multiplicationForm.elements[i].checked = false;
+                    //multiplicationForm.elements[i+1].checked = true;
+                else if(i>12 && isChecked && numberOfTerms == 10) multiplicationForm.elements[i].checked = false;
+            }
+        }
         function getValue(){
             let formValue;
-            const  multiplicationForm = document.getElementById("multiplication-form");
+            //const  multiplicationForm = document.getElementById("multiplication-form");
             for(let i=0;i<11;i++){
                 const isSerieChecked = multiplicationForm.elements[i+1].checked;
                 if(isSerieChecked){
