@@ -50,22 +50,33 @@
     <p id="output"></p>
     <table id="multiplication-table"></table>
     <script>
+        let checkSerie;
         let checkView = false;
+        let checkTable = false;
         const multiplicationForm = document.getElementById("multiplication-form");
+        const multiplicationTable = document.getElementById("multiplication-table");
         function checkAll(){
             console.log("OK");
             
             const serieNumber = multiplicationForm.elements[0].value;
             const allChecked = multiplicationForm.elements[0].checked;
+            
             console.log(allChecked);
             
             for(let i=0;i<11;i++){
                 if(serieNumber == 1 && allChecked) multiplicationForm.elements[i+1].checked = true;
-                else if(serieNumber == 1 && !allChecked) multiplicationForm.elements[i+1].checked = false;
+                else if(serieNumber == 1 && !allChecked) multiplicationForm.elements[i+1].checked = false;   
             }
+            //if(isChecked11 == 11) multiplicationForm.elements[0].checked = true;
         }
         function uncheckAll(){
+            let isChecked11 = 0
+            for(let i=0;i<11;i++){
+                if(multiplicationForm.elements[i+1].checked) isChecked11++;
+                console.log("isChecked11: "+isChecked11);
+            }
             if(multiplicationForm.elements[0].checked) multiplicationForm.elements[0].checked = false;
+            if(isChecked11 == 11) multiplicationForm.elements[0].checked = true;
         }
         function checkTerms(numberOfTerms){
             let isChecked;
@@ -78,30 +89,46 @@
         }
         function getValue(){
             let formValue, formTerms;
-            for(let i=0;i<11;i++){
-                const isSerieChecked = multiplicationForm.elements[i+1].checked;
+            let checkValue = 1;
+            checkSerie = 0;
+            for(let i=12;i<14;i++){
+                if(multiplicationForm.elements[i].checked) formTerms = multiplicationForm.elements[i].value;
+            }
+            setTable(1, formTerms);
+            for(let j=0;j<11;j++){
+                const isSerieChecked = multiplicationForm.elements[j+1].checked;
                 if(isSerieChecked){
-                    formValue = multiplicationForm.elements[i+1].value;
-                        for(let j=12;j<14;j++){
-                            if(multiplicationForm.elements[j].checked) formTerms = multiplicationForm.elements[j].value;
-                        }
+                    formValue = multiplicationForm.elements[j+1].value;    
                     setTable(formValue, formTerms);
+                    checkValue++;
+                    if(checkValue == formValue || multiplicationForm.elements[11].checked){
+                        checkSerie++;
+                        //checkValue--;
+                        if(formValue > 10){
+                            checkSerie = checkSerie - 2;
+                        }
+                        console.log("checkSerie++: "+checkSerie);
+                        checkValue = formValue;
+                    }
+                    console.log("checkValue: "+checkValue);
                 }
                 console.log(isSerieChecked+" "+formValue);    
             }
+            console.log("checkSerie: "+checkSerie)
+            if(checkSerie < 9 && !multiplicationForm.elements[0].checked) removeTable();
             checkView = true;
         }
         function setTable(formValue, formTerms){
             let nodeTR, howManyRows, howManyCols;
             let serieNumber = 1;
             if(checkView){
-                const multiplicationTable = document.getElementById("multiplication-table");
-                while(multiplicationTable.hasChildNodes()){
-                    multiplicationTable.removeChild(multiplicationTable.firstChild);
+                while(multiplicationTable.hasChildNodes() || checkTable){
+                    removeTable();
                 }
                 checkView = false;
             }
-            if(formValue>=2 && formValue <=12) howManyRows = 1;
+            
+            if(formValue>=1 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
             if(formTerms == 13) howManyCols = 10;
             else howManyCols = 12;
@@ -119,6 +146,9 @@
                 }
                 document.getElementById("multiplication-table").appendChild(nodeTR);
             }
+        }
+        function removeTable(){
+            multiplicationTable.removeChild(multiplicationTable.firstChild);
         }
     </script>
 </body>
