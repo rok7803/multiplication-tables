@@ -57,6 +57,7 @@
         let checkView = false;
         let checkTable = false;
         let howManyTerms = true;
+        let isTable = false;
         const multiplicationForm = document.getElementById("multiplication-form");
         const multiplicationTable = document.getElementById("multiplication-table");
         function checkAll(){
@@ -100,7 +101,7 @@
             for(let i=12;i<14;i++){
                 if(multiplicationForm.elements[i].checked) formTerms = multiplicationForm.elements[i].value;
             }
-            setTable(1, formTerms);
+            setTable("1", formTerms);
             for(let j=0;j<11;j++){
                 const isSerieChecked = multiplicationForm.elements[j+1].checked;
                 if(isSerieChecked){
@@ -124,11 +125,20 @@
             if(checkSerie < 9 && !multiplicationForm.elements[0].checked) removeTable();
             else if(checkSerie == 9 && !howManyTerms) removeTable();
             else if(checkSerie == 7 && howManyTerms) removeTable();
+            else if(checkSerie == 9 && howManyTerms){
+                isTable = true;
+                setAttributeSquare();
+            }
+            else if(checkSerie == 7 && !howManyTerms){
+                isTable = true;
+                setAttributeSquare();
+            }
             checkView = true;
         }
         function setTable(formValue, formTerms){
             let nodeTR, howManyRows, howManyCols;
             let serieNumber = 1;
+            //let countTD = 0;
             if(checkView){
                 while(multiplicationTable.hasChildNodes() || checkTable){
                     removeTable();
@@ -148,19 +158,33 @@
                 for(let j=0;j<howManyCols;j++){
                     const nodeTD = document.createElement("TD");
                     const textnode = document.createTextNode((j+1)+" x "+serieNumber);
+                    nodeTD.setAttribute("id", (j+1)+serieNumber);
+                    //console.log(nodeTR.getAttribute(nodeTR.firstChild));
                     nodeTD.appendChild(textnode);
                     nodeTR.appendChild(nodeTD);
+                    //countTD++;
                 }
                 document.getElementById("multiplication-table").appendChild(nodeTR);
             }
-            console.log("checkSerie: "+checkSerie+" | howManyTerms: "+howManyTerms);
-            if(checkSerie == 8 && howManyTerms){
+            
+        }
+        function setAttributeSquare(){
+            //console.log("checkSerie: "+checkSerie+" | howManyTerms: "+howManyTerms);
+            if(isTable && howManyTerms){
                 let count = 0;
-                let isZero = 0;
                 document.querySelectorAll("TD").forEach(function(node){
                     if(Number.isInteger(count/11)) node.setAttribute("class", "square");
                     count++;
                 });
+                isTable = false;
+            }
+            else if(isTable && !howManyTerms){
+                let count = 0;
+                document.querySelectorAll("TD").forEach(function(node){
+                    if(Number.isInteger(count/13)) node.setAttribute("class", "square");
+                    count++;
+                });
+                isTable = false;
             }
         }
         function removeTable(){
