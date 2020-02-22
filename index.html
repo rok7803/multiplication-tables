@@ -53,6 +53,7 @@
         let checkSerie;
         let checkView = false;
         let checkTable = false;
+        let howManyTerms = true;
         const multiplicationForm = document.getElementById("multiplication-form");
         const multiplicationTable = document.getElementById("multiplication-table");
         function checkAll(){
@@ -80,6 +81,8 @@
         }
         function checkTerms(numberOfTerms){
             let isChecked;
+            if(numberOfTerms == 10) howManyTerms = true;
+            else howManyTerms = false;
             for(let i=12;i<14;i++){
                 isChecked = multiplicationForm.elements[i].checked;
                 console.log(isChecked+" "+i);
@@ -116,6 +119,8 @@
             }
             console.log("checkSerie: "+checkSerie)
             if(checkSerie < 9 && !multiplicationForm.elements[0].checked) removeTable();
+            else if(checkSerie == 9 && !howManyTerms) removeTable();
+            else if(checkSerie == 7 && howManyTerms) removeTable();
             checkView = true;
         }
         function setTable(formValue, formTerms){
@@ -127,7 +132,6 @@
                 }
                 checkView = false;
             }
-            
             if(formValue>=1 && formValue <=12) howManyRows = 1;
             else howManyRows = 12;
             if(formTerms == 13) howManyCols = 10;
