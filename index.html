@@ -7,6 +7,9 @@
             border: 1px solid black;
             padding: 5px;
         }
+        .square{
+            border: 2px solid black;
+        }
     </style>
 </head>
 <body>
@@ -57,12 +60,12 @@
         const multiplicationForm = document.getElementById("multiplication-form");
         const multiplicationTable = document.getElementById("multiplication-table");
         function checkAll(){
-            console.log("OK");
+            //console.log("OK");
             
             const serieNumber = multiplicationForm.elements[0].value;
             const allChecked = multiplicationForm.elements[0].checked;
             
-            console.log(allChecked);
+            //console.log(allChecked);
             
             for(let i=0;i<11;i++){
                 if(serieNumber == 1 && allChecked) multiplicationForm.elements[i+1].checked = true;
@@ -74,7 +77,7 @@
             let isChecked11 = 0
             for(let i=0;i<11;i++){
                 if(multiplicationForm.elements[i+1].checked) isChecked11++;
-                console.log("isChecked11: "+isChecked11);
+                //console.log("isChecked11: "+isChecked11);
             }
             if(multiplicationForm.elements[0].checked) multiplicationForm.elements[0].checked = false;
             if(isChecked11 == 11) multiplicationForm.elements[0].checked = true;
@@ -85,7 +88,7 @@
             else howManyTerms = false;
             for(let i=12;i<14;i++){
                 isChecked = multiplicationForm.elements[i].checked;
-                console.log(isChecked+" "+i);
+                //console.log(isChecked+" "+i);
                 if(i<13 && isChecked && numberOfTerms == 12) multiplicationForm.elements[i].checked = false;
                 else if(i>12 && isChecked && numberOfTerms == 10) multiplicationForm.elements[i].checked = false;
             }
@@ -110,14 +113,14 @@
                         if(formValue > 10){
                             checkSerie = checkSerie - 2;
                         }
-                        console.log("checkSerie++: "+checkSerie);
+                        //console.log("checkSerie++: "+checkSerie);
                         checkValue = formValue;
                     }
-                    console.log("checkValue: "+checkValue);
+                    //console.log("checkValue: "+checkValue);
                 }
-                console.log(isSerieChecked+" "+formValue);    
+                //console.log(isSerieChecked+" "+formValue);    
             }
-            console.log("checkSerie: "+checkSerie)
+            //console.log("checkSerie: "+checkSerie)
             if(checkSerie < 9 && !multiplicationForm.elements[0].checked) removeTable();
             else if(checkSerie == 9 && !howManyTerms) removeTable();
             else if(checkSerie == 7 && howManyTerms) removeTable();
@@ -137,7 +140,7 @@
             if(formTerms == 13) howManyCols = 10;
             else howManyCols = 12;
             for(let i=0;i<howManyRows;i++){
-                console.log(i);
+                //console.log(i);
                 nodeTR = document.createElement("TR");
                 //nodeTR.setAttribute("class", "multiplication");
                 if(formValue == 13 || formValue == 14) serieNumber = i+1;
@@ -149,6 +152,15 @@
                     nodeTR.appendChild(nodeTD);
                 }
                 document.getElementById("multiplication-table").appendChild(nodeTR);
+            }
+            console.log("checkSerie: "+checkSerie+" | howManyTerms: "+howManyTerms);
+            if(checkSerie == 8 && howManyTerms){
+                let count = 0;
+                let isZero = 0;
+                document.querySelectorAll("TD").forEach(function(node){
+                    if(Number.isInteger(count/11)) node.setAttribute("class", "square");
+                    count++;
+                });
             }
         }
         function removeTable(){
