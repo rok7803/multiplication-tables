@@ -12,23 +12,23 @@
         <label for="choose-serie1">All</label>
         <input id="choose-serie1" type="checkbox" value="1" onclick="checkAll()">
         <label for="choose-serie2">2</label>
-        <input id="choose-serie2" type="checkbox" value="2" onclick="uncheckAll()">
+        <input id="choose-serie2" type="checkbox" value="2" checked onclick="uncheckAll()">
         <label for="choose-serie3">3</label>
-        <input id="choose-serie3" type="checkbox" value="3" onclick="uncheckAll()">
+        <input id="choose-serie3" type="checkbox" value="3" checked onclick="uncheckAll()">
         <label for="choose-serie3">4</label>
-        <input id="choose-serie4" type="checkbox" value="4" onclick="uncheckAll()">
+        <input id="choose-serie4" type="checkbox" value="4" checked onclick="uncheckAll()">
         <label for="choose-serie4">5</label>
-        <input id="choose-serie5" type="checkbox" value="5" onclick="uncheckAll()">
+        <input id="choose-serie5" type="checkbox" value="5" checked onclick="uncheckAll()">
         <label for="choose-serie6">6</label>
-        <input id="choose-serie6" type="checkbox" value="6" onclick="uncheckAll()">
+        <input id="choose-serie6" type="checkbox" value="6" checked onclick="uncheckAll()">
         <label for="choose-serie7">7</label>
-        <input id="choose-serie7" type="checkbox" value="7" onclick="uncheckAll()">
+        <input id="choose-serie7" type="checkbox" value="7" checked onclick="uncheckAll()">
         <label for="choose-serie8">8</label>
-        <input id="choose-serie8" type="checkbox" value="8" onclick="uncheckAll()">
+        <input id="choose-serie8" type="checkbox" value="8" checked onclick="uncheckAll()">
         <label for="choose-serie9">9</label>
-        <input id="choose-serie9" type="checkbox" value="9" onclick="uncheckAll()">
+        <input id="choose-serie9" type="checkbox" value="9" checked onclick="uncheckAll()">
         <label for="choose-serie10">10</label>
-        <input id="choose-serie10" type="checkbox" value="10" onclick="uncheckAll()">
+        <input id="choose-serie10" type="checkbox" value="10" checked onclick="uncheckAll()">
         <label for="choose-serie11">11</label>
         <input id="choose-serie11" type="checkbox" value="11" onclick="uncheckAll()">
         <label for="choose-serie12">12</label>
@@ -37,16 +37,31 @@
         <label class="form-heading">Terms per Serie:</label>
         <br>
         <label for="choose-term10">10</label>
-        <input id="choose-term10" type="checkbox" value="13" checked onclick="checkTerms(10)">
+        <input id="choose-term10" type="checkbox" value="11" checked onclick="checkTerms(10)">
         <label for="choose-term12">12</label>
-        <input id="choose-term12" type="checkbox" value="14" onclick="checkTerms(12)">
+        <input id="choose-term12" type="checkbox" value="13" onclick="checkTerms(12)">
         <br>
         <input type="submit" value="Create Table">
     </form>
-    <!--<button onclick="getValue()">Create Table</button>-->
     <p id="output"></p>
     <table id="multiplication-table"></table>
-    
+    <button id="button-set-questions" onclick="setQuestions()" disabled>Start Questions</button>
+    <p>You get <span id="questions">10</span> Questions.</p>
+    <table id="exercise">
+        <tbody>
+            <tr>
+                <td id="multiplier1" class="multiplier"></td>
+                <td id="m-sign" class="multiplier">&#8729;</td>
+                <td id="multiplier2" class="multiplier"></td>
+            </tr>
+            <tr>
+                <td><button id="button0" class="buttonResult" onclick="checkResult0()" disabled>23</button></td>
+                <td><button id="button1" class="buttonResult" onclick="checkResult1()" disabled>23</button></td>
+                <td><button id="button2" class="buttonResult" onclick="checkResult2()" disabled>23</button></td>
+            </tr>
+        </tbody>
+    </table>
+
     <script src="main.js" type="text/javascript"></script>
 </body>
 </html>
