@@ -1,10 +1,21 @@
-let checkSerie;
+let checkSerie, buttonWithCorrectResult, formTerms;
+let countSerie = 0;
+let countQuestions = 1;
+let arrayOfSeries;
 let checkView = false;
 let checkTable = false;
 let howManyTerms = true;
 let isTable = false;
+let checkButton = false;
 const multiplicationForm = document.getElementById("multiplication-form");
 const multiplicationTable = document.getElementById("multiplication-table");
+const buttonSetQuestions = document.getElementById("button-set-questions");
+const questions = document.getElementById("questions");
+const multiplier1 = document.getElementById("multiplier1");
+const multiplier2 = document.getElementById("multiplier2");
+const button0 = document.getElementById("button0");
+const button1 = document.getElementById("button1");
+const button2 = document.getElementById("button2");
 function checkAll(){
     //console.log("OK");
     
@@ -40,19 +51,29 @@ function checkTerms(numberOfTerms){
     }
 }
 function getValue(){
-    let formValue, formTerms;
+    let formValue;
+    let countArrayOfSeries = 0;
+    button0.disabled = true;
+    button1.disabled = true;
+    button2.disabled = true;
+    countQuestions = 1;
+    arrayOfSeries = [];
     let checkValue = 1;
     checkSerie = 0;
     for(let i=12;i<14;i++){
         if(multiplicationForm.elements[i].checked) formTerms = multiplicationForm.elements[i].value;
     }
     setTable("1", formTerms);
+    questions.innerHTML = formTerms-1;
     for(let j=0;j<11;j++){
         const isSerieChecked = multiplicationForm.elements[j+1].checked;
         if(isSerieChecked){
-            formValue = multiplicationForm.elements[j+1].value;    
+            checkButton = true;
+            formValue = multiplicationForm.elements[j+1].value;
+            arrayOfSeries[countArrayOfSeries] = formValue;
+            countArrayOfSeries++;
+            checkValue++;   
             setTable(formValue, formTerms);
-            checkValue++;
             if(checkValue == formValue || multiplicationForm.elements[11].checked){
                 checkSerie++;
                 //checkValue--;
@@ -64,8 +85,14 @@ function getValue(){
             }
             //console.log("checkValue: "+checkValue);
         }
-        //console.log(isSerieChecked+" "+formValue);    
+        //if(j == 10 && !checkButton) checkButton = false;
+        //else arrayOfSeries[j] = "notChecked";
+        console.log(isSerieChecked+" "+formValue);
+        console.log(checkButton);    
     }
+    //console.log("arrayOfSeries.length: "+arrayOfSeries.length);
+    if(arrayOfSeries.length == 9 && !multiplicationForm.elements[10].checked && !multiplicationForm.elements[11].checked || arrayOfSeries.length == 11 && multiplicationForm.elements[10].checked) arrayOfSeries.unshift("1");
+    //console.log("arrayOfSeries: "+arrayOfSeries);
     //console.log("checkSerie: "+checkSerie)
     if(checkSerie < 9 && !multiplicationForm.elements[0].checked) removeTable();
     else if(checkSerie == 9 && !howManyTerms) removeTable();
@@ -79,6 +106,17 @@ function getValue(){
         setAttributeSquare();
     }
     checkView = true;
+    setButtons();
+    checkButton = false;
+}
+function setButtons(){
+    if(checkButton) buttonSetQuestions.disabled = false;
+    else{
+        buttonSetQuestions.disabled = true;
+        button0.disabled = true;
+        button1.disabled = true;
+        button2.disabled = true;
+    }
 }
 function setTable(formValue, formTerms){
     let nodeTR, howManyRows, howManyCols;
@@ -92,14 +130,16 @@ function setTable(formValue, formTerms){
     }
     if(formValue>=1 && formValue <=12) howManyRows = 1;
     else howManyRows = 12;
-    if(formTerms == 13) howManyCols = 10;
+    if(formTerms == 11) howManyCols = 10;
     else howManyCols = 12;
     for(let i=0;i<howManyRows;i++){
+        countSerie++;
         //console.log(i);
         nodeTR = document.createElement("TR");
         //nodeTR.setAttribute("class", "multiplication");
         if(formValue == 13 || formValue == 14) serieNumber = i+1;
         else serieNumber = formValue;
+        //arrayOfSeries += serieNumber;
         for(let j=0;j<howManyCols;j++){
             const nodeTD = document.createElement("TD");
             const textnode = document.createTextNode((j+1)+" x "+serieNumber);
@@ -111,7 +151,7 @@ function setTable(formValue, formTerms){
         }
         document.getElementById("multiplication-table").appendChild(nodeTR);
     }
-    
+    //if(countSerie < 9 && countSerie > 9)    
 }
 function setAttributeSquare(){
     //console.log("checkSerie: "+checkSerie+" | howManyTerms: "+howManyTerms);
@@ -134,4 +174,56 @@ function setAttributeSquare(){
 }
 function removeTable(){
     multiplicationTable.removeChild(multiplicationTable.firstChild);
+}
+function setQuestions(){
+    buttonSetQuestions.disabled = true;
+    button0.disabled = false;
+    button1.disabled = false;
+    button2.disabled = false;
+    multiplier1.innerHTML = arrayOfSeries[0];
+    multiplier2.innerHTML = countQuestions;
+    const result = arrayOfSeries[0] * countQuestions;
+    const randomButtonNumber = Math.floor(Math.random() * 3);
+    const randomResultPlus = Math.floor(Math.random()*result+1);
+    const randomResultMinus = Math.floor(Math.random()*result+1);
+    if(randomButtonNumber == 0){
+        button0.innerHTML = result;
+        button1.innerHTML = result+randomResultPlus;
+        button2.innerHTML = result-randomResultMinus;
+        buttonWithCorrectResult = "button0";
+    }
+    else if(randomButtonNumber == 1){
+        button0.innerHTML = result-randomResultMinus;
+        button1.innerHTML = result;
+        button2.innerHTML = result+randomResultPlus;
+        buttonWithCorrectResult = "button1";
+    }
+    else{
+        button0.innerHTML = result+randomResultPlus;
+        button1.innerHTML = result-randomResultMinus;
+        button2.innerHTML = result;
+        buttonWithCorrectResult = "button2";
+    }
+    //let countQuestionsString = toString(countQuestions);
+    console.log(formTerms);
+    if(formTerms == countQuestions){
+        setButtons();
+        countQuestions = 0;
+        multiplier2.innerHTML = 1;
+        alert("You did it!");
+    } 
+    countQuestions++;
+    console.log("countQuestions: "+countQuestions);
+}
+function checkResult0(){
+    if(button0.id == buttonWithCorrectResult) setQuestions();
+    else alert("Try again!");
+}
+function checkResult1(){
+    if(button1.id == buttonWithCorrectResult) setQuestions();
+    else alert("Try again!");
+}
+function checkResult2(){
+    if(button2.id == buttonWithCorrectResult) setQuestions();
+    else alert("Try again!");
 }
