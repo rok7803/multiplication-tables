@@ -5,3 +5,6 @@ td {
 .square{
     border: 2px solid black;
 }
+.multiplier{
+    text-align: center;
+}
