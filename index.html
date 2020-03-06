@@ -14,7 +14,7 @@
 </head>
 <body>
     <h1>Multiplication Table</h1>
-    <form id="multiplication-form">
+    <form id="multiplication-form" onsubmit="getValue()" action="#">
         <label class="form-heading">Choose Serie:</label>
         <br>
         <label for="choose-serie1">All</label>
@@ -48,8 +48,10 @@
         <input id="choose-term10" type="checkbox" value="13" checked onclick="checkTerms(10)">
         <label for="choose-term12">12</label>
         <input id="choose-term12" type="checkbox" value="14" onclick="checkTerms(12)">
+        <br>
+        <input type="submit" value="Create Table">
     </form>
-    <button onclick="getValue()">Create Table</button>
+    <!--<button onclick="getValue()">Create Table</button>-->
     <p id="output"></p>
     <table id="multiplication-table"></table>
     <script>
