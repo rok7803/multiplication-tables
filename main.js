@@ -1,7 +1,8 @@
-let checkSerie, buttonWithCorrectResult, formTerms;
+let checkSerie, buttonWithCorrectResult, formTerms, formDirection, backwardCountQuestions10, backwardCountQuestions12;
 let countSerie = 0;
 let countQuestions = 1;
 let arrayOfSeries;
+let timeStart, timeStop;
 let checkView = false;
 let checkTable = false;
 let howManyTerms = true;
@@ -50,9 +51,30 @@ function checkTerms(numberOfTerms){
         else if(i>12 && isChecked && numberOfTerms == 10) multiplicationForm.elements[i].checked = false;
     }
 }
+function checkDirection(direction){
+    let isDirectionChecked;
+    for(let i=14;i<17;i++){
+        isDirectionChecked = multiplicationForm.elements[i].checked;
+        if(i == 14 && isDirectionChecked && direction == 'forward'){
+            multiplicationForm.elements[i+1].checked = false;
+            multiplicationForm.elements[i+2].checked = false;
+        }
+        else if(i == 15 && isDirectionChecked && direction == 'random'){
+            multiplicationForm.elements[i-1].checked = false;
+            multiplicationForm.elements[i+1].checked = false;
+        }
+        else if(i == 16 && isDirectionChecked && direction == 'backward'){
+            multiplicationForm.elements[i-1].checked = false;
+            multiplicationForm.elements[i-2].checked = false;
+        }
+    }
+}
 function getValue(){
     let formValue;
     let countArrayOfSeries = 0;
+    countSerie = 0;
+    backwardCountQuestions10 = 10;
+    backwardCountQuestions12 = 12;
     button0.disabled = true;
     button1.disabled = true;
     button2.disabled = true;
@@ -63,13 +85,18 @@ function getValue(){
     for(let i=12;i<14;i++){
         if(multiplicationForm.elements[i].checked) formTerms = multiplicationForm.elements[i].value;
     }
+    for(let j=14;j<17;j++){
+        //console.log(j);
+        if(multiplicationForm.elements[j].checked) formDirection = multiplicationForm.elements[j].value;
+        //console.log("formDirection: "+formDirection);
+    }
     setTable("1", formTerms);
     questions.innerHTML = formTerms-1;
-    for(let j=0;j<11;j++){
-        const isSerieChecked = multiplicationForm.elements[j+1].checked;
+    for(let k=0;k<11;k++){
+        const isSerieChecked = multiplicationForm.elements[k+1].checked;
         if(isSerieChecked){
             checkButton = true;
-            formValue = multiplicationForm.elements[j+1].value;
+            formValue = multiplicationForm.elements[k+1].value;
             arrayOfSeries[countArrayOfSeries] = formValue;
             countArrayOfSeries++;
             checkValue++;   
@@ -87,8 +114,9 @@ function getValue(){
         }
         //if(j == 10 && !checkButton) checkButton = false;
         //else arrayOfSeries[j] = "notChecked";
-        console.log(isSerieChecked+" "+formValue);
-        console.log(checkButton);    
+        //console.log("isSerieChecked: "+isSerieChecked
+        //console.log("formValue: "+formValue);
+        //console.log(checkButton);    
     }
     //console.log("arrayOfSeries.length: "+arrayOfSeries.length);
     if(arrayOfSeries.length == 9 && !multiplicationForm.elements[10].checked && !multiplicationForm.elements[11].checked || arrayOfSeries.length == 11 && multiplicationForm.elements[10].checked) arrayOfSeries.unshift("1");
@@ -99,10 +127,12 @@ function getValue(){
     else if(checkSerie == 7 && howManyTerms) removeTable();
     else if(checkSerie == 9 && howManyTerms){
         isTable = true;
+        countSerie++;
         setAttributeSquare();
     }
     else if(checkSerie == 7 && !howManyTerms){
         isTable = true;
+        countSerie++;
         setAttributeSquare();
     }
     checkView = true;
@@ -121,6 +151,7 @@ function setButtons(){
 function setTable(formValue, formTerms){
     let nodeTR, howManyRows, howManyCols;
     let serieNumber = 1;
+    //countSerie = 0;
     //let countTD = 0;
     if(checkView){
         while(multiplicationTable.hasChildNodes() || checkTable){
@@ -175,14 +206,45 @@ function setAttributeSquare(){
 function removeTable(){
     multiplicationTable.removeChild(multiplicationTable.firstChild);
 }
+function startTime(){
+    let date = new Date();
+    timeStart = date.getMilliseconds();
+    setQuestions();
+}
 function setQuestions(){
+    let result;
     buttonSetQuestions.disabled = true;
     button0.disabled = false;
     button1.disabled = false;
     button2.disabled = false;
-    multiplier1.innerHTML = arrayOfSeries[0];
-    multiplier2.innerHTML = countQuestions;
-    const result = arrayOfSeries[0] * countQuestions;
+    const randomSerie = Math.floor(Math.random()*(countSerie-1));
+    //console.log("countSerie: "+countSerie);
+    console.log("randomSerie: "+randomSerie);
+    multiplier1.innerHTML = arrayOfSeries[randomSerie];
+    if(formDirection == "forward") {
+        multiplier2.innerHTML = countQuestions;
+        result = arrayOfSeries[randomSerie] * countQuestions;
+    }
+    else if(formDirection == "random" && formTerms == "11"){
+        const randomCountQuestions10 = Math.floor(Math.random()*10+1);
+        multiplier2.innerHTML = randomCountQuestions10;
+        result = arrayOfSeries[randomSerie] * randomCountQuestions10;
+    }
+    else if(formDirection == "random" && formTerms == "13"){
+        const randomCountQuestions12 = Math.floor(Math.random()*12+1);
+        multiplier2.innerHTML = randomCountQuestions12;
+        result = arrayOfSeries[randomSerie] * randomCountQuestions12;
+    }
+    else if(formDirection == "backward" && formTerms == "11"){
+        multiplier2.innerHTML = backwardCountQuestions10;
+        result = arrayOfSeries[randomSerie] * backwardCountQuestions10;
+        backwardCountQuestions10--;
+    }
+    else if(formDirection == "backward" && formTerms == "13"){
+        multiplier2.innerHTML = backwardCountQuestions12;
+        result = arrayOfSeries[randomSerie] * backwardCountQuestions12;
+        backwardCountQuestions12--;
+    }
     const randomButtonNumber = Math.floor(Math.random() * 3);
     const randomResultPlus = Math.floor(Math.random()*result+1);
     const randomResultMinus = Math.floor(Math.random()*result+1);
@@ -205,15 +267,19 @@ function setQuestions(){
         buttonWithCorrectResult = "button2";
     }
     //let countQuestionsString = toString(countQuestions);
-    console.log(formTerms);
+    //console.log(formTerms);
     if(formTerms == countQuestions){
+        let date = new Date();
+        timeStop = date.getMilliseconds();
+        let timeStopped = timeStop - timeStart;
+        timeStopped = timeStopped / 1000;
         setButtons();
         countQuestions = 0;
         multiplier2.innerHTML = 1;
-        alert("You did it!");
+        alert("You did it! In "+timeStopped+" Seconds.");
     } 
     countQuestions++;
-    console.log("countQuestions: "+countQuestions);
+    //console.log("countQuestions: "+countQuestions);
 }
 function checkResult0(){
     if(button0.id == buttonWithCorrectResult) setQuestions();
