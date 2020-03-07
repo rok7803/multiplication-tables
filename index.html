@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Multiplication Table</h1>
-    <form id="multiplication-form" onsubmit="getValue()">
+    <form id="multiplication-form" onsubmit="getValue()" action="#">
         <label class="form-heading">Choose Serie:</label>
         <br>
         <label for="choose-serie1">All</label>
@@ -44,17 +44,17 @@
         <label class="form-heading">Choose direction:</label>
         <br>
         <label for="direction-forward">Forward</label>
-        <input id="direction-forward" type="radio" value="forward" checked>
+        <input id="direction-forward" type="radio" value="forward" checked onclick="checkDirection('forward')">
         <label for="direction-random">Random</label>
-        <input id="direction-random" type="radio" value="random">
+        <input id="direction-random" type="radio" value="random" onclick="checkDirection('random')">
         <label for="direction-backward">Backward</label>
-        <input id="direction-backward" type="radio" value="backward">
+        <input id="direction-backward" type="radio" value="backward" onclick="checkDirection('backward')">
         <br>
         <input type="submit" value="Create Table">
     </form>
     <p id="output"></p>
     <table id="multiplication-table"></table>
-    <button id="button-set-questions" onclick="setQuestions()" disabled>Start Questions</button>
+    <button id="button-set-questions" onclick="startTime()" disabled>Start Questions</button>
     <p>You get <span id="questions">10</span> Questions.</p>
     <table id="exercise">
         <tbody>
