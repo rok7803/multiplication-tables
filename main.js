@@ -209,6 +209,7 @@ function removeTable(){
 function startTime(){
     let date = new Date();
     timeStart = date.getMilliseconds();
+    console.log('timeStart: '+timeStart);
     setQuestions();
 }
 function setQuestions(){
@@ -219,7 +220,7 @@ function setQuestions(){
     button2.disabled = false;
     const randomSerie = Math.floor(Math.random()*(countSerie-1));
     //console.log("countSerie: "+countSerie);
-    console.log("randomSerie: "+randomSerie);
+    //console.log("randomSerie: "+randomSerie);
     multiplier1.innerHTML = arrayOfSeries[randomSerie];
     if(formDirection == "forward") {
         multiplier2.innerHTML = countQuestions;
@@ -272,7 +273,8 @@ function setQuestions(){
         let date = new Date();
         timeStop = date.getMilliseconds();
         let timeStopped = timeStop - timeStart;
-        timeStopped = timeStopped / 1000;
+        console.log('timeStop:'+timeStop);
+        //timeStopped = Math.floor(timeStopped / 3.6);
         setButtons();
         countQuestions = 0;
         multiplier2.innerHTML = 1;
